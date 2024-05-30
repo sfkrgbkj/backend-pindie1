@@ -14,12 +14,13 @@ const {checkAuth} = require('../middlewares/auth');
   gamesRouter.post(
     "/games",
     findAllGames,
+    checkAuth,
     checkIsGameExists,
     checkIfCategoriesAvaliable,
     checkEmptyFields,
     createGame,
-    sendGameCreated,
-    checkAuth
+    sendGameCreated
+    
   );
   gamesRouter.get("/games/:id", findGameById, sendGameById);
   // Файл routes/games.js
@@ -29,15 +30,16 @@ gamesRouter.put(
   // Шаг 1. Находим игру по id из запроса
     findGameById,
     checkIsVoteRequest,
+    checkAuth,
     // Шаг 2. Выполняем проверки для корректного обновления
     // Шаг 3. Обновляем запись с игрой
-    updateGame,
     checkIfUsersAreSafe,
     checkIfCategoriesAvaliable,
     checkEmptyFields,
+  updateGame,
     // Шаг 4. Возвращаем на клиент ответ с результатом обновления
     sendGameUpdated,
-    checkAuth
+    
 );
   // Файл routes/games.js
 
@@ -45,9 +47,10 @@ gamesRouter.put(
 
 gamesRouter.delete(
   "/games/:id", // Слушаем запросы по эндпоинту
+  checkAuth 
   deleteGame,
   sendGameDeleted,
-  checkAuth // Тут будут функция удаления элементов из MongoDB и ответ клиенту
+  // Тут будут функция удаления элементов из MongoDB и ответ клиенту
 );
   // Экспортируем роут для использования в приложении — app.js
   module.exports = gamesRouter
